@@ -10,7 +10,7 @@ const Banner = () => {
           class="max-w-lg ml-5 rounded-lg shadow-2xl"
         />
         <div>
-          <h1 class="text-5xl font-bold">Your New Smile Starts Here</h1>
+          <h1 class="text-5xl font-bold text-accent">Your New Smile Starts Here</h1>
           <p class="py-6">
           Dentistry, also known as dental medicine and oral medicine, is the branch of medicine focused on the teeth, gums, and mouth.
           </p>
