@@ -21,7 +21,7 @@ const MakeAppointment = () => {
             treatment of diseases, disorders, and conditions of the mouth, most
             commonly focused on dentition as well as the oral mucosa.
           </p>
-          <button class="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary mb-4">
+          <button className="btn btn-primary uppercase text-white font-bold bg-gradient-to-r from-secondary to-primary mb-4">
             Get Started
           </button>
         </div>
