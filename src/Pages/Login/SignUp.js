@@ -31,10 +31,6 @@ const SignUp = () => {
 
   let signInError;
 
-  if (user || gUser) {
-    console.log(user || gUser);
-  }
-
   if (loading || gLoading || updating) {
     return <Loading></Loading>;
   }
@@ -45,6 +41,10 @@ const SignUp = () => {
         <small>{error?.message || gError.message || updateError.message}</small>
       </p>
     );
+  }
+
+  if (user || gUser) {
+    console.log(user || gUser);
   }
 
   const onSubmit = async (data) => {
