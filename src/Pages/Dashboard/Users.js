@@ -4,12 +4,16 @@ import Loading from "../Shared/Loading";
 import UserRow from "./UserRow";
 
 const Users = () => {
-  const { data: users, isLoading, refetch } = useQuery(["users"], () =>
-    fetch("http://localhost:5000/user", {
-      method: 'GET',
+  const {
+    data: users,
+    isLoading,
+    refetch,
+  } = useQuery(["users"], () =>
+    fetch("https://doctors-portal-server-v36k.onrender.com/user", {
+      method: "GET",
       headers: {
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
-      }
+        authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
     }).then((res) => res.json())
   );
 
@@ -31,14 +35,14 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {
-                users.map((user, index) => <UserRow
+            {users.map((user, index) => (
+              <UserRow
                 key={user._id}
                 user={user}
                 index={index}
                 refetch={refetch}
-                ></UserRow>)
-            }
+              ></UserRow>
+            ))}
           </tbody>
         </table>
       </div>

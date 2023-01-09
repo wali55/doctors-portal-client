@@ -13,19 +13,22 @@ const MyAppointments = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/booking?patient=${user.email}`, {
-        method: 'GET',
-        headers: {
-          'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      fetch(
+        `https://doctors-portal-server-v36k.onrender.com/booking?patient=${user.email}`,
+        {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
-      })
+      )
         .then((res) => {
-          console.log('res', res);
+          console.log("res", res);
 
-          if(res.status === 401 || res.status === 403) {
+          if (res.status === 401 || res.status === 403) {
             signOut(auth);
-            localStorage.removeItem('accessToken');
-            navigate('/');
+            localStorage.removeItem("accessToken");
+            navigate("/");
           }
 
           return res.json();
