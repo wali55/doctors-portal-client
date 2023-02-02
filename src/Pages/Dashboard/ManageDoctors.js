@@ -8,8 +8,12 @@ import DoctorRow from "./DoctorRow";
 const ManageDoctors = () => {
   const [deletingDoctors, serDeletingDoctors] = useState(null);
 
-  const { data: doctors, isLoading, refetch } = useQuery(["doctors"], () =>
-    fetch("http://localhost:5000/doctor", {
+  const {
+    data: doctors,
+    isLoading,
+    refetch,
+  } = useQuery(["doctors"], () =>
+    fetch("https://doctors-portal-server-v36k.onrender.com/doctor", {
       headers: {
         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
@@ -35,23 +39,25 @@ const ManageDoctors = () => {
             </tr>
           </thead>
           <tbody>
-            {
-                doctors.map((doctor, index) => <DoctorRow
+            {doctors.map((doctor, index) => (
+              <DoctorRow
                 key={doctor._id}
                 doctor={doctor}
                 index={index}
                 refetch={refetch}
                 serDeletingDoctors={serDeletingDoctors}
-                ></DoctorRow>)
-            }
+              ></DoctorRow>
+            ))}
           </tbody>
         </table>
       </div>
-      {deletingDoctors && <DeleteConfirmModal
-        deletingDoctors={deletingDoctors}
-        refetch={refetch}
-        serDeletingDoctors={serDeletingDoctors}
-      ></DeleteConfirmModal>}
+      {deletingDoctors && (
+        <DeleteConfirmModal
+          deletingDoctors={deletingDoctors}
+          refetch={refetch}
+          serDeletingDoctors={serDeletingDoctors}
+        ></DeleteConfirmModal>
+      )}
     </div>
   );
 };

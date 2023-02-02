@@ -9,65 +9,66 @@ const AddDoctor = () => {
     register,
     formState: { errors },
     handleSubmit,
-    reset
+    reset,
   } = useForm();
 
   const { data: services, isLoading } = useQuery(["services"], () =>
-    fetch("http://localhost:5000/service").then((res) => res.json())
+    fetch("https://doctors-portal-server-v36k.onrender.com/service").then(
+      (res) => res.json()
+    )
   );
 
-  const imageStorageKey = '6fbc2998f7ca9c4c6d3967d309fa927b';
+  const imageStorageKey = "6fbc2998f7ca9c4c6d3967d309fa927b";
 
   /**
    * 3 ways to store images
    * 1. Third party storage(image bb) // free open public storage is okay for practice project
    * 2. Your own storage in your own server (file system)
    * 3. Database (mongodb)
-   * 
+   *
    * YUP: to validate file(search: YUP file validation for react hook form)
-  */
+   */
 
   const onSubmit = async (data) => {
     const image = data.image[0];
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append("image", image);
     const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`;
     fetch(url, {
-      method: 'POST',
-      body: formData
+      method: "POST",
+      body: formData,
     })
-      .then(res => res.json())
-      .then(result => {
-        if(result.success){
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success) {
           const img = result.data.url;
           const doctor = {
             name: data.name,
             email: data.email,
             specialty: data.specialty,
-            img: img
-          }
+            img: img,
+          };
 
           // send to your database
-          fetch('http://localhost:5000/doctor', {
-            method: 'POST',
+          fetch("https://doctors-portal-server-v36k.onrender.com/doctor", {
+            method: "POST",
             headers: {
-              'content-type': 'application/json',
-              authorization: `Bearer ${localStorage.getItem('accessToken')}`
+              "content-type": "application/json",
+              authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
-            body: JSON.stringify(doctor)
+            body: JSON.stringify(doctor),
           })
-            .then(res => res.json())
-            .then(inserted => {
-              if(inserted.insertedId){
-                toast.success('Doctor added successfully');
+            .then((res) => res.json())
+            .then((inserted) => {
+              if (inserted.insertedId) {
+                toast.success("Doctor added successfully");
                 reset();
+              } else {
+                toast.error("Failed to add the doctor");
               }
-              else{
-                toast.error('Failed to add the doctor');
-              }
-            })
+            });
         }
-      })
+      });
   };
 
   if (isLoading) {
@@ -76,9 +77,7 @@ const AddDoctor = () => {
 
   return (
     <div>
-      <h2 className="text-2xl my-6 ml-8 font-semibold">
-        Add a New Doctor
-      </h2>
+      <h2 className="text-2xl my-6 ml-8 font-semibold">Add a New Doctor</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="ml-8">
         {/* Name field */}
@@ -143,13 +142,15 @@ const AddDoctor = () => {
           <label className="label">
             <span className="label-text">Specialty</span>
           </label>
-          <select {...register("specialty")} class="select select-bordered w-full max-w-xs mb-4">
-            {
-              services.map(service => <option
-              key={service._id}
-              value={service.name}
-              >{service.name}</option>)
-            }
+          <select
+            {...register("specialty")}
+            class="select select-bordered w-full max-w-xs mb-4"
+          >
+            {services.map((service) => (
+              <option key={service._id} value={service.name}>
+                {service.name}
+              </option>
+            ))}
           </select>
         </div>
         {/* Photo field */}
